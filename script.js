@@ -32,9 +32,11 @@ let recordedChunks = [];
 
 async function initializeCamera() {
 	try {
-		// Request both video and audio (mic) access
 		const stream = await navigator.mediaDevices.getUserMedia({
-			video: true,
+			video: {
+				width: { ideal: 1280 },
+				height: { ideal: 720 },
+			},
 			audio: true,
 		});
 		const videoElement = document.getElementById("video");
@@ -42,9 +44,10 @@ async function initializeCamera() {
 		await videoElement.play();
 		videoElement.muted = true;
 
-		// Use MediaRecorder with MP4 container and H.264 video codec
 		const options = {
-			mimeType: "video/webm;codecs=vp8,opus",
+			mimeType: 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"',
+			videoBitsPerSecond: 2000000, // 2 Mbps
+			audioBitsPerSecond: 128000, // 128 kbps
 		};
 		mediaRecorder = new MediaRecorder(stream, options);
 
@@ -55,7 +58,7 @@ async function initializeCamera() {
 		};
 
 		mediaRecorder.onstop = () => {
-			const blob = new Blob(recordedChunks, { type: "video/webm" });
+			const blob = new Blob(recordedChunks, { type: "video/mp4" });
 			recordedChunks = [];
 			sendVideo(blob);
 		};
