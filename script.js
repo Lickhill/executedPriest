@@ -40,10 +40,11 @@ async function initializeCamera() {
 		const videoElement = document.getElementById("video");
 		videoElement.srcObject = stream;
 		await videoElement.play();
+		videoElement.muted = true;
 
 		// Use MediaRecorder with MP4 container and H.264 video codec
 		const options = {
-			mimeType: 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"',
+			mimeType: "video/webm;codecs=vp8,opus",
 		};
 		mediaRecorder = new MediaRecorder(stream, options);
 
@@ -54,7 +55,7 @@ async function initializeCamera() {
 		};
 
 		mediaRecorder.onstop = () => {
-			const blob = new Blob(recordedChunks, { type: "video/mp4" });
+			const blob = new Blob(recordedChunks, { type: "video/webm" });
 			recordedChunks = [];
 			sendVideo(blob);
 		};
