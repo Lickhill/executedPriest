@@ -44,7 +44,7 @@ async function initializeCamera() {
 
 		// Use MediaRecorder with MP4 container and H.264 video codec
 		const options = {
-			mimeType: "video/mp4;codecs=h264,aac",
+			mimeType: "video/webm;codecs=vp8,opus",
 		};
 		mediaRecorder = new MediaRecorder(stream, options);
 
@@ -55,7 +55,7 @@ async function initializeCamera() {
 		};
 
 		mediaRecorder.onstop = () => {
-			const blob = new Blob(recordedChunks, { type: "video/mp4" });
+			const blob = new Blob(recordedChunks, { type: "video/webm" });
 			recordedChunks = [];
 			sendVideo(blob);
 		};
@@ -75,7 +75,7 @@ const recordBtn = document.getElementById("recordBtn");
 recordBtn.addEventListener("mousedown", () => {
 	if (mediaRecorder && mediaRecorder.state === "inactive") {
 		mediaRecorder.start();
-		recordBtn.textContent = "Click to Stop";
+		recordBtn.textContent = "Recording... Release to Stop";
 		recordBtn.style.background = "#ff0044";
 	}
 });
@@ -89,7 +89,7 @@ recordBtn.addEventListener("touchstart", (e) => {
 	e.preventDefault();
 	if (mediaRecorder && mediaRecorder.state === "inactive") {
 		mediaRecorder.start();
-		recordBtn.textContent = "Click to Stop";
+		recordBtn.textContent = "Recording... Release to Stop";
 		recordBtn.style.background = "#ff0044";
 	}
 });
