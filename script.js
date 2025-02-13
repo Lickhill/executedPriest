@@ -44,7 +44,7 @@ async function initializeCamera() {
 
 		// Use MediaRecorder with MP4 container and H.264 video codec
 		const options = {
-			mimeType: "video/webm;codecs=vp8,opus",
+			mimeType: "video/webm;codecs=vp8",
 		};
 		mediaRecorder = new MediaRecorder(stream, options);
 
